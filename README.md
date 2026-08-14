@@ -174,6 +174,5 @@ src/
 - Implement task sharing between students.
 
 ## GitHub Repository
-[https://github.com/YOUR_USERNAME/marimla-module7-vue-system](https://github.com/YOUR_USERNAME/marimla-module7-vue-system)
+[https://github.com/62842024-blip/marimla-module7-vue-system.git](https://github.com/62842024-blip/marimla-module7-vue-system.git)
 
-*(Replace with your actual public repository URL)*
