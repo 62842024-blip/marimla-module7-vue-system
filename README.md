@@ -124,7 +124,7 @@ src/
 *Screenshots should be placed in a `screenshots/` folder and referenced here.*
 
 ### 01 - Running Application
-![Running Application](screenshots/01-running-application.png)
+![Running Application](https://1drv.ms/i/c/E47D450995775123/IQChmpLJmNMLQKljlZKaHcKfAS4NK7FS4tPUzNs9vrprcMA?e=0zgW4x)
 
 ### 02 - Add Record
 ![Add Record](screenshots/02-add-record.png)
