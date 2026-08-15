@@ -121,10 +121,8 @@ src/
 
 ## Application Screenshots
 
-*Screenshots should be placed in a `screenshots/` folder and referenced here.*
-
 ### 01 - Running Application
-![Running Application](screenshots/01-running-application)
+![Running Application](screenshots/01-running-application.png)
 
 ### 02 - Add Record
 ![Add Record](screenshots/02-add-record.png)
