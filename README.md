@@ -176,3 +176,5 @@ src/
 ## GitHub Repository
 [https://github.com/62842024-blip/marimla-module7-vue-system.git](https://github.com/62842024-blip/marimla-module7-vue-system.git)
 
+---
+*Submitted for Software Engineering 1 - Module 7*
