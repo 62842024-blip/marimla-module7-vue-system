@@ -1,4 +1,4 @@
-# TaskFlow — Student Task Management System
+# Student Task Management System
 
 ## Student Information
 - **Name:** Kimberly Marimla
