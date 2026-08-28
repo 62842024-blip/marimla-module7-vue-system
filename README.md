@@ -205,7 +205,7 @@ The GitHub Actions workflow was updated to run automated tests before the produc
 ### 11 - CI Success
 ![CI Success](screenshots/11-ci-success.png)
 
-## Module 8 Screenshots
+## Testing Screenshots
 
 #### 01 - Existing Application
 ![Existing Application](screenshots/01-existing-application.png)
