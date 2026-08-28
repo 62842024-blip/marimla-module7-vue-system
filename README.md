@@ -145,16 +145,16 @@ src/
 **Result:** 10/10 manual test cases passed.
 
 ### Automated Unit Tests
-7 automated tests were implemented in `src/tests/TaskManagement.test.js`:
+6 automated tests were implemented in `src/tests/TaskManagement.test.js`:
 1. adds a valid task
 2. displays multiple tasks
 3. edits an existing task
 4. deletes a task
 5. searches tasks by title or subject
 6. trims whitespace in search queries (defect fix regression)
-7. returns all tasks when search is only whitespace (defect fix regression)
+6. returns all tasks when search is only whitespace (defect fix regression)
 
-**Result:** 7/7 automated tests passed.
+**Result:** 6/6 automated tests passed.
 
 ### Identified Defect (BUG-01)
 - **Summary:** Search with surrounding whitespace returns "No tasks found" even when matching tasks exist
