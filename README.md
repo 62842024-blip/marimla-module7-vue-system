@@ -152,7 +152,6 @@ src/
 4. deletes a task
 5. searches tasks by title or subject
 6. trims whitespace in search queries (defect fix regression)
-6. returns all tasks when search is only whitespace (defect fix regression)
 
 **Result:** 6/6 automated tests passed.
 
