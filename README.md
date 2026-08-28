@@ -112,11 +112,62 @@ src/
 │   ├── TaskList.vue       # Full task list with search and filters
 │   ├── TaskCard.vue       # Reusable individual task card
 │   ├── TaskForm.vue       # Modal form for add/edit tasks
-│   ├── Calendar.vue       # Monthly calendar with task dots
-│   └── AppFooter.vue      # Footer with student info
+│   ├── ConfirmModal.vue   # Custom delete confirmation modal
+│   ├── Calendar.vue       # Monthly calendar with task names
+│   └── AppFooter.vue      # Footer with system info
+├── tests/
+│   └── TaskManagement.test.js  # Automated Vitest unit tests
 ├── App.vue                # Main layout and state management
 ├── main.js                # App entry point
 └── style.css              # Pastel theme with light/dark mode
+```
+
+## Module 8: Software Testing Summary
+
+### Test Approach
+- **Static Testing:** Code review of Vue components, validation logic, and search filters
+- **Dynamic Testing:** Manual functional testing of CRUD operations, search, and responsive design
+- **Automated Testing:** 7 unit tests using Vitest covering add, display, edit, delete, search, and defect regression
+
+### Manual Test Cases
+10 manual test cases were designed and executed covering:
+- TC-01: Add valid task (Positive)
+- TC-02: Reject missing title (Negative)
+- TC-03: Reject spaces-only title (Edge)
+- TC-04: Display multiple tasks (Positive)
+- TC-05: Edit existing task (Positive)
+- TC-06: Cancel delete (Negative)
+- TC-07: Confirm delete (Positive)
+- TC-08: Search existing task (Positive)
+- TC-09: Search missing task (Negative)
+- TC-10: Verify localStorage persistence (Positive)
+
+**Result:** 10/10 manual test cases passed.
+
+### Automated Unit Tests
+7 automated tests were implemented in `src/tests/TaskManagement.test.js`:
+1. adds a valid task
+2. displays multiple tasks
+3. edits an existing task
+4. deletes a task
+5. searches tasks by title or subject
+6. trims whitespace in search queries (defect fix regression)
+7. returns all tasks when search is only whitespace (defect fix regression)
+
+**Result:** 7/7 automated tests passed.
+
+### Identified Defect (BUG-01)
+- **Summary:** Search with surrounding whitespace returns "No tasks found" even when matching tasks exist
+- **Root Cause:** Missing `.trim()` on search query in `TaskList.vue`
+- **Fix:** Added `.trim()` to normalize search input before filtering
+- **Status:** Fixed and verified through retesting and regression testing
+
+### CI/CD Pipeline
+The GitHub Actions workflow was updated to run automated tests before the production build:
+```yaml
+- run: npm ci
+- run: npm run test:run
+- run: npm run build
 ```
 
 ## Application Screenshots
@@ -154,6 +205,32 @@ src/
 ### 11 - CI Success
 ![CI Success](screenshots/11-ci-success.png)
 
+### Module 8 Screenshots
+
+#### 01 - Existing Application
+![Existing Application](screenshots/01-existing-application.png)
+
+#### 02 - Passing Unit Tests
+![Passing Unit Tests](screenshots/02-passing-unit-tests.png)
+
+#### 03 - Failed Unit Test
+![Failed Unit Test](screenshots/03-failed-unit-test.png)
+
+#### 04 - Identified Defect
+![Identified Defect](screenshots/04-identified-defect.png)
+
+#### 05 - Defect Correction
+![Defect Correction](screenshots/05-defect-correction.png)
+
+#### 06 - Successful Retesting
+![Successful Retesting](screenshots/06-successful-retesting.png)
+
+#### 07 - Final Regression Result
+![Final Regression Result](screenshots/07-final-regression-result.png)
+
+#### 08 - GitHub Commit
+![GitHub Commit](screenshots/08-github-commit.png)
+
 ## Known Limitations
 - Data is stored only in the browser's localStorage and is not shared across devices or browsers.
 - No user authentication; all tasks are stored locally without user accounts.
@@ -175,4 +252,4 @@ src/
 [https://github.com/62842024-blip/marimla-module7-vue-system.git](https://github.com/62842024-blip/marimla-module7-vue-system.git)
 
 ---
-*Submitted for Software Engineering 1 - Module 7*
+*Submitted for Software Engineering 1 - Module 7 & 8*

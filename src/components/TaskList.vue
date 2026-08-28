@@ -102,9 +102,9 @@ const filteredTasks = computed(() => {
   let result = props.tasks
 
   if (props.searchQuery) {
-    const q = props.searchQuery.toLowerCase()
-    result = result.filter(t => t.title.toLowerCase().includes(q) || t.subject.toLowerCase().includes(q))
-  }
+  const q = props.searchQuery.toLowerCase().trim()
+  result = result.filter(t => t.title.toLowerCase().includes(q) || t.subject.toLowerCase().includes(q))
+}
 
   if (props.priorityFilter) {
     result = result.filter(t => t.priority === props.priorityFilter)
