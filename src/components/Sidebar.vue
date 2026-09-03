@@ -86,14 +86,12 @@
     <!-- Sidebar Footer -->
     <div class="p-4 border-t" style="border-color: var(--border-color);">
       <div class="flex items-center gap-3">
-        <div class="w-9 h-9 rounded-full bg-gradient-to-br from-lavender to-[#8A7EC3] flex items-center justify-center text-white text-sm font-bold">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-          </svg>
+        <div class="w-9 h-9 rounded-full bg-gradient-to-br from-lavender to-[#8A7EC3] flex items-center justify-center text-white text-sm font-bold shrink-0">
+          {{ sidebarInitials }}
         </div>
         <div class="overflow-hidden">
-          <p class="text-sm font-semibold truncate" style="color: var(--text-primary);">Student Account</p>
-          <p class="text-xs" style="color: var(--text-muted);">TaskFlow User</p>
+          <p class="text-sm font-semibold truncate" style="color: var(--text-primary);">{{ currentUser?.displayName || 'Student Account' }}</p>
+          <p class="text-xs" style="color: var(--text-muted);">{{ currentUser?.role || 'TaskFlow User' }}</p>
         </div>
       </div>
     </div>
@@ -108,15 +106,28 @@
 </template>
 
 <script setup>
-defineProps({
+import { computed } from 'vue'
+
+const props = defineProps({
   isOpen: Boolean,
   activeView: String,
   activeFilter: String,
   taskCount: Number,
   pendingCount: Number,
   progressCount: Number,
-  completedCount: Number
+  completedCount: Number,
+  currentUser: { type: Object, default: null }
 })
 
 defineEmits(['close', 'navigate', 'filter-status'])
+
+const sidebarInitials = computed(() => {
+  if (!props.currentUser?.displayName) return '?'
+  return props.currentUser.displayName
+    .split(' ')
+    .map(w => w[0])
+    .join('')
+    .toUpperCase()
+    .slice(0, 2)
+})
 </script>

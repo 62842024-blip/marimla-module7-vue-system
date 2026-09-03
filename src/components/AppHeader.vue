@@ -68,21 +68,81 @@
           </svg>
           <span class="hidden sm:inline">Add Task</span>
         </button>
+
+        <!-- Divider -->
+        <div class="hidden sm:block w-px h-6 mx-1" style="background-color: var(--border-color);"></div>
+
+        <!-- User info + Logout -->
+        <div v-if="currentUser" class="flex items-center gap-2">
+          <!-- Avatar + name -->
+          <div class="hidden sm:flex items-center gap-2">
+            <div class="w-8 h-8 rounded-xl bg-gradient-to-br from-lavender to-[#8A7EC3] flex items-center justify-center text-white text-xs font-bold shadow-sm">
+              {{ initials }}
+            </div>
+            <div class="hidden lg:block">
+              <p class="text-xs font-semibold leading-tight" style="color: var(--text-primary);">{{ currentUser.displayName }}</p>
+              <p class="text-xs leading-tight" style="color: var(--text-muted);">{{ currentUser.role }}</p>
+            </div>
+          </div>
+          <!-- Logout button -->
+          <button
+            id="logout-btn"
+            @click="$emit('logout')"
+            class="logout-btn flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold transition"
+            title="Sign out"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+            </svg>
+            <span class="hidden sm:inline">Logout</span>
+          </button>
+        </div>
       </div>
     </div>
   </header>
 </template>
 
 <script setup>
+import { computed } from 'vue'
+
 const props = defineProps({
   isDark: Boolean,
-  searchQuery: String
+  searchQuery: String,
+  currentUser: { type: Object, default: null }
 })
 
-const emit = defineEmits(['toggle-sidebar', 'toggle-theme', 'add-task', 'update:searchQuery', 'search-submitted'])
+const emit = defineEmits(['toggle-sidebar', 'toggle-theme', 'add-task', 'update:searchQuery', 'search-submitted', 'logout'])
+
+const initials = computed(() => {
+  if (!props.currentUser?.displayName) return '?'
+  return props.currentUser.displayName
+    .split(' ')
+    .map(w => w[0])
+    .join('')
+    .toUpperCase()
+    .slice(0, 2)
+})
 
 function handleSearch(e) {
   emit('update:searchQuery', e.target.value)
   emit('search-submitted')
 }
 </script>
+
+<style scoped>
+.logout-btn {
+  background-color: var(--bg-input);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-color);
+}
+.logout-btn:hover {
+  background-color: #FDE8D0;
+  color: #C45B3A;
+  border-color: #FAD0A8;
+}
+.dark .logout-btn:hover {
+  background-color: #4A3525;
+  color: #E8A87C;
+  border-color: #5A4030;
+}
+</style>

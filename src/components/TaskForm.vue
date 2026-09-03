@@ -79,7 +79,7 @@
             </div>
 
             <!-- Error -->
-            <div v-if="errorMessage" class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-600 dark:text-red-300 px-4 py-3 rounded-xl text-sm flex items-center gap-2">
+            <div v-if="errorMessage" class="px-4 py-3 rounded-xl text-sm flex items-center gap-2" style="background-color: #FDE8D0; border: 1px solid #FAD0A8; color: #C45B3A;">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
@@ -87,7 +87,7 @@
             </div>
 
             <!-- Success -->
-            <div v-if="successMessage" class="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 text-green-600 dark:text-green-300 px-4 py-3 rounded-xl text-sm flex items-center gap-2">
+            <div v-if="successMessage" class="px-4 py-3 rounded-xl text-sm flex items-center gap-2" style="background-color: #D4EDDA; border: 1px solid #B8E0C8; color: #1E5631;">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>

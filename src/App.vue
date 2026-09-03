@@ -1,5 +1,9 @@
 <template>
-  <div class="min-h-screen flex" style="background-color: var(--bg-primary);">
+  <!-- Login Page (shown when not logged in) -->
+  <LoginPage v-if="!isLoggedIn" />
+
+  <!-- Main App (shown when logged in) -->
+  <div v-else class="min-h-screen flex" style="background-color: var(--bg-primary);">
     <!-- Sidebar -->
     <Sidebar
       :is-open="sidebarOpen"
@@ -9,6 +13,7 @@
       :pending-count="pendingCount"
       :progress-count="inProgressCount"
       :completed-count="completedCount"
+      :current-user="currentUser"
       @close="sidebarOpen = false"
       @navigate="handleNavigate"
       @filter-status="handleStatusFilter"
@@ -18,11 +23,13 @@
     <div class="flex-1 flex flex-col min-w-0">
       <AppHeader
         :is-dark="isDark"
+        :current-user="currentUser"
         v-model:searchQuery="searchQuery"
         @toggle-sidebar="sidebarOpen = true"
         @toggle-theme="toggleTheme"
         @add-task="openAddTask"
         @search-submitted="handleSearchSubmit"
+        @logout="handleLogout"
       />
 
       <main class="flex-1 px-4 sm:px-6 py-6 overflow-y-auto">
@@ -111,6 +118,11 @@ import TaskList from './components/TaskList.vue'
 import Calendar from './components/Calendar.vue'
 import TaskForm from './components/TaskForm.vue'
 import ConfirmModal from './components/ConfirmModal.vue'
+import LoginPage from './components/LoginPage.vue'
+import { useAuth } from './composables/useAuth.js'
+
+// Auth
+const { currentUser, isLoggedIn, logout, restoreSession } = useAuth()
 
 // Theme
 const isDark = ref(false)
@@ -268,6 +280,9 @@ function saveTasks() {
 }
 
 onMounted(() => {
+  // Restore session first
+  restoreSession()
+
   // Load theme
   const savedTheme = localStorage.getItem('taskflow-theme')
   if (savedTheme === 'dark') {
@@ -295,6 +310,10 @@ onMounted(() => {
     saveTasks()
   }
 })
+
+function handleLogout() {
+  logout()
+}
 
 // CRUD
 function addTask(newTask) {
