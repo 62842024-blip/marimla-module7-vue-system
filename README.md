@@ -157,6 +157,23 @@ src/
 ### 11 - CI Success
 ![CI Success](screenshots/11-ci-success.png)
 
+## Known Limitations
+- Data is stored only in the browser's localStorage and is not shared across devices or browsers.
+- No user authentication; all tasks are stored locally without user accounts.
+- No backend API or database connection; this is a frontend-only prototype.
+- No due date reminders or notifications.
+- Calendar is a simplified month view without full event details.
+
+## Proposed Future Improvements
+- Connect to the Node.js and Express backend from Module 6.
+- Implement MongoDB Atlas for persistent cloud storage.
+- Add user authentication and individual user accounts.
+- Implement task categories and tags.
+- Add due date reminders and email notifications.
+- Enable drag-and-drop task prioritization.
+- Add a full calendar with event details.
+- Implement task sharing between students.
+
 ## Module 8: Software Testing Summary
 
 ### Test Approach
@@ -230,22 +247,6 @@ The GitHub Actions workflow was updated to run automated tests before the produc
 #### 08 - GitHub Commit
 ![GitHub Commit](screenshots/08-github-commit.png)
 
-## Known Limitations
-- Data is stored only in the browser's localStorage and is not shared across devices or browsers.
-- No user authentication; all tasks are stored locally without user accounts.
-- No backend API or database connection; this is a frontend-only prototype.
-- No due date reminders or notifications.
-- Calendar is a simplified month view without full event details.
-
-## Proposed Future Improvements
-- Connect to the Node.js and Express backend from Module 6.
-- Implement MongoDB Atlas for persistent cloud storage.
-- Add user authentication and individual user accounts.
-- Implement task categories and tags.
-- Add due date reminders and email notifications.
-- Enable drag-and-drop task prioritization.
-- Add a full calendar with event details.
-- Implement task sharing between students.
 
 ## Module 9 – Software Evolution
 
