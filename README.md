@@ -122,6 +122,58 @@ src/
 └── style.css              # Pastel theme with light/dark mode
 ```
 
+## Application Screenshots
+
+### 01 - Running Application
+![Running Application](screenshots/01-running-application.png)
+
+### 02 - Add Record
+![Add Record](screenshots/02-add-record.png)
+
+### 03 - Record List
+![Record List](screenshots/03-record-list.png)
+
+### 04 - Edit Record
+![Edit Record](screenshots/04-edit-record.png)
+
+### 05 - Delete Confirmation
+![Delete Confirmation](screenshots/05-delete-confirmation.png)
+
+### 06 - Search Function
+![Search Function](screenshots/06-search-function.png)
+
+### 07 - localStorage
+![localStorage](screenshots/07-localstorage.png)
+
+### 08 - Responsive View
+![Responsive View](screenshots/08-responsive-view.png)
+
+### 09 - GitHub Repository
+![GitHub Repository](screenshots/09-github-repository.png)
+
+### 10 - Commit History
+![Commit History](screenshots/10-commit-history.png)
+
+### 11 - CI Success
+![CI Success](screenshots/11-ci-success.png)
+
+## Known Limitations
+- Data is stored only in the browser's localStorage and is not shared across devices or browsers.
+- No user authentication; all tasks are stored locally without user accounts.
+- No backend API or database connection; this is a frontend-only prototype.
+- No due date reminders or notifications.
+- Calendar is a simplified month view without full event details.
+
+## Proposed Future Improvements
+- Connect to the Node.js and Express backend from Module 6.
+- Implement MongoDB Atlas for persistent cloud storage.
+- Add user authentication and individual user accounts.
+- Implement task categories and tags.
+- Add due date reminders and email notifications.
+- Enable drag-and-drop task prioritization.
+- Add a full calendar with event details.
+- Implement task sharing between students.
+
 ## Module 8: Software Testing Summary
 
 ### Test Approach
@@ -169,41 +221,6 @@ The GitHub Actions workflow was updated to run automated tests before the produc
 - run: npm run build
 ```
 
-## Application Screenshots
-
-### 01 - Running Application
-![Running Application](screenshots/01-running-application.png)
-
-### 02 - Add Record
-![Add Record](screenshots/02-add-record.png)
-
-### 03 - Record List
-![Record List](screenshots/03-record-list.png)
-
-### 04 - Edit Record
-![Edit Record](screenshots/04-edit-record.png)
-
-### 05 - Delete Confirmation
-![Delete Confirmation](screenshots/05-delete-confirmation.png)
-
-### 06 - Search Function
-![Search Function](screenshots/06-search-function.png)
-
-### 07 - localStorage
-![localStorage](screenshots/07-localstorage.png)
-
-### 08 - Responsive View
-![Responsive View](screenshots/08-responsive-view.png)
-
-### 09 - GitHub Repository
-![GitHub Repository](screenshots/09-github-repository.png)
-
-### 10 - Commit History
-![Commit History](screenshots/10-commit-history.png)
-
-### 11 - CI Success
-![CI Success](screenshots/11-ci-success.png)
-
 ## Testing Screenshots
 
 #### 01 - Existing Application
@@ -230,22 +247,6 @@ The GitHub Actions workflow was updated to run automated tests before the produc
 #### 08 - GitHub Commit
 ![GitHub Commit](screenshots/08-github-commit.png)
 
-## Known Limitations
-- Data is stored only in the browser's localStorage and is not shared across devices or browsers.
-- No user authentication; all tasks are stored locally without user accounts.
-- No backend API or database connection; this is a frontend-only prototype.
-- No due date reminders or notifications.
-- Calendar is a simplified month view without full event details.
-
-## Proposed Future Improvements
-- Connect to the Node.js and Express backend from Module 6.
-- Implement MongoDB Atlas for persistent cloud storage.
-- Add user authentication and individual user accounts.
-- Implement task categories and tags.
-- Add due date reminders and email notifications.
-- Enable drag-and-drop task prioritization.
-- Add a full calendar with event details.
-- Implement task sharing between students.
 
 ## GitHub Repository
 [https://github.com/62842024-blip/marimla-module7-vue-system.git](https://github.com/62842024-blip/marimla-module7-vue-system.git)
