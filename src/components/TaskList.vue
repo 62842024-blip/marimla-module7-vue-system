@@ -41,6 +41,7 @@
           <option value="Pending">Pending</option>
           <option value="In Progress">In Progress</option>
           <option value="Completed">Completed</option>
+          <option value="Overdue">Overdue</option>
         </select>
       </div>
     </div>
@@ -111,8 +112,22 @@ const filteredTasks = computed(() => {
   }
 
   if (props.statusFilter) {
+  if (props.statusFilter === 'Overdue') {
+    const today = new Date()
+    today.setHours(0, 0, 0, 0)
+
+    result = result.filter(t => {
+      if (!t.dueDate || t.status === 'Completed') return false
+
+      const dueDate = new Date(t.dueDate)
+      dueDate.setHours(0, 0, 0, 0)
+
+      return dueDate < today
+    })
+  } else {
     result = result.filter(t => t.status === props.statusFilter)
   }
+}
 
   return result
 })
