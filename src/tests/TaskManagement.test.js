@@ -1,4 +1,6 @@
 import { describe, it, expect } from 'vitest'
+import { mount } from '@vue/test-utils'
+import TaskList from '../components/TaskList.vue'
 
 const tasks = [
   {
@@ -80,16 +82,103 @@ describe('Student Task Management System', () => {
     expect(results[0].title).toBe('Web Development Project')
   })
 
-})
+  it('searches correctly when the keyword has extra spaces', () => {
+    const keyword = '  software  '.toLowerCase().trim()
 
-it('searches correctly when the keyword has extra spaces', () => {
-  const keyword = '  software  '.toLowerCase().trim()
+    const results = tasks.filter(task =>
+      task.title.toLowerCase().includes(keyword) ||
+      task.subject.toLowerCase().includes(keyword)
+    )
 
-  const results = tasks.filter(task =>
-    task.title.toLowerCase().includes(keyword) ||
-    task.subject.toLowerCase().includes(keyword)
-  )
+    expect(results).toHaveLength(1)
+    expect(results[0].title).toBe('Web Development Project')
+  })
 
-  expect(results).toHaveLength(1)
-  expect(results[0].title).toBe('Web Development Project')
+  it('shows the Overdue option in the status filter', () => {
+    const wrapper = mount(TaskList, {
+      props: {
+        tasks,
+        searchQuery: '',
+        priorityFilter: '',
+        statusFilter: ''
+      },
+      global: {
+        stubs: {
+          TaskCard: {
+            props: ['task'],
+            template: '<div>{{ task.title }}</div>'
+          }
+        }
+      }
+    })
+
+    const statusSelect = wrapper.findAll('select')[1]
+    const options = statusSelect.findAll('option')
+
+    expect(options.some(option => option.text() === 'Overdue')).toBe(true)
+  })
+
+  it('shows overdue incomplete tasks and excludes completed tasks', async () => {
+    const dateOffset = (days) => {
+      const date = new Date()
+      date.setDate(date.getDate() + days)
+      return date.toISOString().split('T')[0]
+    }
+
+    const overdueTasks = [
+      {
+        id: 101,
+        title: 'Overdue Pending Task',
+        subject: 'Software Engineering',
+        dueDate: dateOffset(-2),
+        priority: 'High',
+        status: 'Pending'
+      },
+      {
+        id: 102,
+        title: 'Overdue Completed Task',
+        subject: 'Software Engineering',
+        dueDate: dateOffset(-3),
+        priority: 'Medium',
+        status: 'Completed'
+      },
+      {
+        id: 103,
+        title: 'Future Task',
+        subject: 'Software Engineering',
+        dueDate: dateOffset(2),
+        priority: 'Low',
+        status: 'Pending'
+      }
+    ]
+
+    const wrapper = mount(TaskList, {
+      props: {
+        tasks: overdueTasks,
+        searchQuery: '',
+        priorityFilter: '',
+        statusFilter: 'Overdue'
+      },
+      global: {
+        stubs: {
+          TaskCard: {
+            props: ['task'],
+            template: '<div>{{ task.title }}</div>'
+          }
+        }
+      }
+    })
+
+    await wrapper.vm.$nextTick()
+
+    const taskCards = wrapper.findAllComponents({
+      name: 'TaskCard'
+    })
+
+    expect(wrapper.text()).toContain('Overdue Pending Task')
+    expect(wrapper.text()).not.toContain('Overdue Completed Task')
+    expect(wrapper.text()).not.toContain('Future Task')
+    expect(taskCards).toHaveLength(0)
+  })
+
 })
