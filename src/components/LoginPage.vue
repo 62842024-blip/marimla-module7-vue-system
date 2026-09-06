@@ -1,5 +1,20 @@
 <template>
-  <div class="min-h-screen flex items-center justify-center px-4 py-12 login-bg">
+  <div class="min-h-screen flex items-center justify-center px-4 py-12 login-bg relative">
+    <!-- Top-Right Dark Mode Toggle Button -->
+    <button
+      @click="$emit('toggle-theme')"
+      class="absolute top-5 right-5 z-20 p-2.5 rounded-2xl shadow-md transition-all duration-200 hover:scale-105 flex items-center justify-center cursor-pointer"
+      style="background-color: var(--bg-card); border: 1px solid var(--border-color); color: var(--text-primary);"
+      :title="isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'"
+    >
+      <svg v-if="isDark" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+      </svg>
+      <svg v-else xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+      </svg>
+    </button>
+
     <!-- Background decorative blobs -->
     <div class="blob blob-1"></div>
     <div class="blob blob-2"></div>
@@ -104,29 +119,6 @@
             </button>
           </form>
 
-          <!-- Demo Credentials -->
-          <div class="mt-6 pt-5" style="border-top: 1px solid var(--border-color);">
-            <p class="text-xs font-semibold uppercase tracking-wider mb-3" style="color: var(--text-muted);">Demo Credentials</p>
-            <div class="space-y-2">
-              <button v-for="acc in demoAccounts" :key="acc.username" type="button" @click="fillDemo(acc)"
-                class="demo-account-btn w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs transition">
-                <div class="flex items-center gap-2.5">
-                  <div class="w-7 h-7 rounded-lg bg-gradient-to-br from-lavender to-[#8A7EC3] flex items-center justify-center text-white font-bold text-xs">
-                    {{ acc.displayName[0] }}
-                  </div>
-                  <div class="text-left">
-                    <p class="font-semibold" style="color: var(--text-primary);">{{ acc.displayName }}</p>
-                    <p style="color: var(--text-muted);">{{ acc.role }}</p>
-                  </div>
-                </div>
-                <div class="text-right font-mono" style="color: var(--text-secondary);">
-                  <p>{{ acc.username }}</p>
-                  <p style="color: var(--text-muted);">{{ acc.password }}</p>
-                </div>
-              </button>
-            </div>
-          </div>
-
           <p class="text-center text-xs mt-4" style="color: var(--text-muted);">
             Don't have an account?
             <button @click="switchTab('register')" class="font-semibold" style="color: var(--accent-primary);">Create one</button>
@@ -152,7 +144,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0z" />
                   </svg>
                 </span>
-                <input id="reg-displayname" v-model="reg_displayName" type="text" placeholder="e.g. Kim Marimla"
+                <input id="reg-displayname" v-model="reg_displayName" type="text" placeholder="e.g. Ana Stark"
                   class="w-full pl-10 pr-4 py-2.5 text-sm pastel-input" />
               </div>
             </div>
@@ -290,6 +282,15 @@
 import { ref } from 'vue'
 import { useAuth } from '../composables/useAuth.js'
 
+defineProps({
+  isDark: {
+    type: Boolean,
+    default: false
+  }
+})
+
+defineEmits(['toggle-theme'])
+
 const { login, register } = useAuth()
 
 // Tab state
@@ -308,18 +309,6 @@ const login_password = ref('')
 const showLoginPw    = ref(false)
 const loginError     = ref('')
 const loginLoading   = ref(false)
-
-const demoAccounts = [
-  { username: 'student', password: 'student123', displayName: 'Kim Marimla', role: 'Student' },
-  { username: 'admin',   password: 'admin123',   displayName: 'Admin User',  role: 'Administrator' },
-  { username: 'guest',   password: 'guest123',   displayName: 'Guest User',  role: 'Guest' },
-]
-
-function fillDemo(acc) {
-  login_username.value = acc.username
-  login_password.value = acc.password
-  loginError.value = ''
-}
 
 async function handleLogin() {
   loginError.value = ''
@@ -458,15 +447,6 @@ async function handleRegister() {
   box-shadow: 0 0 0 3px rgba(245, 169, 160, 0.2) !important;
 }
 
-/* Demo account buttons */
-.demo-account-btn {
-  background-color: var(--bg-input);
-  border: 1px solid var(--border-color);
-}
-.demo-account-btn:hover {
-  border-color: var(--accent-primary);
-  background-color: var(--hover-bg);
-}
 
 /* Transition between tabs */
 .fade-slide-enter-active,

@@ -248,8 +248,169 @@ The GitHub Actions workflow was updated to run automated tests before the produc
 ![GitHub Commit](screenshots/08-github-commit.png)
 
 
+## Module 9 – Software Evolution
+
+### Change Request
+
+**CR-M9-01 – Add Overdue Option to the Status Filter**
+
+**Maintenance Type:** Perfective Maintenance
+
+**Target Version:** 1.1.0
+
+The Student Task Management System was evolved by adding an **Overdue** option to the existing Status Filter. The system already identified overdue tasks in the task card display, but users could not directly filter the task list to show overdue tasks.
+
+### Desired Outcome
+
+Users can select **Overdue** from the Status Filter to display tasks whose due date has already passed while excluding completed tasks.
+
+### Acceptance Criteria
+
+- **AC-01:** The Status Filter provides an Overdue option alongside the existing status options.
+- **AC-02:** Selecting Overdue displays tasks with a due date before the current date and a status other than Completed.
+- **AC-03:** Completed tasks with past due dates are excluded from the Overdue results.
+- **AC-04:** Existing CRUD, search, filtering, validation, delete confirmation, persistence, authentication, and responsive features remain functional.
+
+### Affected Architecture
+
+The change affects the existing task filtering flow in `TaskList.vue`.
+
+The existing task data structure is preserved. No changes were made to the localStorage schema, authentication/session handling, or overall application architecture.
+
+The Overdue condition is derived from existing task data:
+
+**Due Date < Current Date AND Status != Completed**
+
+### Implementation
+
+The Status Filter in `TaskList.vue` was updated to include:
+
+- Pending
+- In Progress
+- Completed
+- Overdue
+
+When Overdue is selected, the system checks each task's due date and status. Past-due incomplete tasks are displayed, while completed and future tasks are excluded.
+
+### Testing
+
+The existing Module 8 automated tests were retained.
+
+Two additional Module 9 automated tests were added:
+
+1. Verifies that the Overdue option exists in the Status Filter.
+2. Verifies that overdue incomplete tasks are displayed while completed and future tasks are excluded.
+
+Final automated test result:
+
+**8 tests passed.**
+
+### Manual Regression Testing
+
+Manual regression testing covered:
+
+- Add/Create Task
+- Display Tasks
+- Edit Task
+- Delete Task
+- Search
+- Search with extra spaces
+- Validation
+- Delete confirmation
+- Persistence
+- Pending filter
+- Completed filter
+- Responsive layout
+- Overdue filter
+
+All manual regression tests passed.
+
+### Build
+
+The production build completed successfully using:
+
+```bash
+npm run build
+CI
+
+The project uses GitHub Actions to automatically run the test suite and production build.
+
+The Module 9 branch will be pushed to GitHub for CI verification.
+```
+### Limitations
+
+The Overdue filter is based on the current date and existing task due-date/status values. No notification or reminder system was added.
+
+### Release Notes – Version 1.1.0
+
+## Added
+
+Overdue option to the Status Filter.
+Filtering of overdue incomplete tasks.
+Exclusion of completed overdue tasks.
+Two automated tests covering the new behavior.
+
+## Preserved
+
+Existing task CRUD operations.
+Search and existing filters.
+Validation.
+Delete confirmation.
+localStorage persistence.
+Authentication and session handling.
+Responsive interface.
+
+
+### Screenshots / Evidence
+
+#### M9-01 – Previous Architecture
+
+![Previous Architecture](screenshots/M9-01_Previous_Architecture.png)
+
+#### M9-02 – Existing System
+
+![Existing System](screenshots/M9-02_Existing_System.png)
+
+![Existing System](screenshots/M9-02-1_Existing_System.png)
+
+#### M9-03 – Module 8 Test Baseline
+
+![Module 8 Test Baseline](screenshots/M9-03_Module8_Test_Baseline.png)
+
+#### M9-04 – Change Request
+
+![Change Request](screenshots/M9-04_Change_Request.png)
+
+![Change Request](screenshots/M9-04-1_Change_Request.png)
+
+![Change Request](screenshots/M9-04-2_Change_Request.png)
+
+#### M9-05 – Updated Architecture
+
+![Updated Architecture](screenshots/M9-05_Updated_Architecture.png)
+
+#### M9-06 – Implementation
+
+![Implementation](screenshots/M9-06_Implementation.png)
+
+#### M9-07 – Evolved System
+
+![Evolved System](screenshots/M9-07_Evolved_System.png)
+
+#### M9-08 – Updated Test Cases
+
+![Updated Test Cases](screenshots/M9-08_Updated_Test_Cases.png)
+
+#### M9-09 – Test and Build Results
+
+![Test and Build Results](screenshots/M9-09_Test_Build_Results.png)
+
+#### M9-10 – GitHub Actions
+
+![GitHub Actions](screenshots/M9-10_GitHub_Actions.png)
+
 ## GitHub Repository
 [https://github.com/62842024-blip/marimla-module7-vue-system.git](https://github.com/62842024-blip/marimla-module7-vue-system.git)
 
 ---
-*Submitted for Software Engineering 1 - Module 7 & 8*
+*Submitted for Software Engineering 1 - Module 7, 8, & 9*
