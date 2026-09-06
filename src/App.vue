@@ -1,6 +1,6 @@
 <template>
   <!-- Login Page (shown when not logged in) -->
-  <LoginPage v-if="!isLoggedIn" />
+  <LoginPage v-if="!isLoggedIn" :is-dark="isDark" @toggle-theme="toggleTheme" />
 
   <!-- Main App (shown when logged in) -->
   <div v-else class="min-h-screen flex" style="background-color: var(--bg-primary);">
@@ -109,7 +109,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, watch, onMounted } from 'vue'
 import AppHeader from './components/AppHeader.vue'
 import Sidebar from './components/Sidebar.vue'
 import AppFooter from './components/AppFooter.vue'
@@ -184,100 +184,42 @@ const pendingCount = computed(() => tasks.value.filter(t => t.status === 'Pendin
 const inProgressCount = computed(() => tasks.value.filter(t => t.status === 'In Progress').length)
 const completedCount = computed(() => tasks.value.filter(t => t.status === 'Completed').length)
 
-// Sample data
-const sampleTasks = [
-  {
-    id: 1,
-    title: 'Database Laboratory',
-    description: 'Create ERD and normalization diagrams for the library system',
-    subject: 'Database Management',
-    dueDate: getFutureDate(3),
-    priority: 'High',
-    status: 'Pending',
-    createdAt: new Date().toISOString()
-  },
-  {
-    id: 2,
-    title: 'Web Development Project',
-    description: 'Build the frontend UI using Vue.js and Tailwind CSS',
-    subject: 'Software Engineering 1',
-    dueDate: getFutureDate(7),
-    priority: 'High',
-    status: 'In Progress',
-    createdAt: new Date(Date.now() - 86400000).toISOString()
-  },
-  {
-    id: 3,
-    title: 'Data Structures Quiz',
-    description: 'Prepare for the quiz on trees and graphs',
-    subject: 'Data Structures',
-    dueDate: getFutureDate(5),
-    priority: 'Medium',
-    status: 'Pending',
-    createdAt: new Date(Date.now() - 172800000).toISOString()
-  },
-  {
-    id: 4,
-    title: 'Math Assignment',
-    description: 'Practice given problems on differential equations',
-    subject: 'Calculus 2',
-    dueDate: getFutureDate(10),
-    priority: 'Low',
-    status: 'Pending',
-    createdAt: new Date(Date.now() - 259200000).toISOString()
-  },
-  {
-    id: 5,
-    title: 'Interface Design',
-    description: 'Design the user interface for the mobile app prototype',
-    subject: 'Human-Computer Interaction',
-    dueDate: getFutureDate(-2),
-    priority: 'Medium',
-    status: 'Completed',
-    createdAt: new Date(Date.now() - 345600000).toISOString()
-  },
-  {
-    id: 6,
-    title: 'Research Paper',
-    description: 'Finish the research and write-up on AI ethics',
-    subject: 'Ethics in IT',
-    dueDate: getFutureDate(-5),
-    priority: 'High',
-    status: 'Completed',
-    createdAt: new Date(Date.now() - 432000000).toISOString()
-  },
-  {
-    id: 7,
-    title: 'Presentation Slides',
-    description: 'Create slides for the group project presentation',
-    subject: 'Software Engineering 1',
-    dueDate: getFutureDate(2),
-    priority: 'Medium',
-    status: 'In Progress',
-    createdAt: new Date(Date.now() - 100000000).toISOString()
-  },
-  {
-    id: 8,
-    title: 'Network Configuration Lab',
-    description: 'Configure routers and switches in Packet Tracer',
-    subject: 'Computer Networks',
-    dueDate: getFutureDate(14),
-    priority: 'Low',
-    status: 'Pending',
-    createdAt: new Date(Date.now() - 50000000).toISOString()
+// localStorage (per-user task isolation)
+function getStorageKey() {
+  if (currentUser.value && currentUser.value.username) {
+    return `module7-tasks-${currentUser.value.username}`
   }
-]
-
-function getFutureDate(days) {
-  const d = new Date()
-  d.setDate(d.getDate() + days)
-  return d.toISOString().split('T')[0]
+  return 'module7-tasks'
 }
 
-// localStorage
+function loadTasks() {
+  if (!currentUser.value) {
+    tasks.value = []
+    return
+  }
+  const key = getStorageKey()
+  const saved = localStorage.getItem(key)
+  if (saved) {
+    try {
+      tasks.value = JSON.parse(saved)
+    } catch (e) {
+      tasks.value = []
+    }
+  } else {
+    tasks.value = []
+  }
+}
+
 function saveTasks() {
-  localStorage.setItem('module7-tasks', JSON.stringify(tasks.value))
+  if (!currentUser.value) return
+  const key = getStorageKey()
+  localStorage.setItem(key, JSON.stringify(tasks.value))
 }
+
+// Automatically load user's specific tasks whenever logged-in user changes
+watch(() => currentUser.value?.username, () => {
+  loadTasks()
+}, { immediate: true })
 
 onMounted(() => {
   // Restore session first
@@ -290,25 +232,8 @@ onMounted(() => {
     document.documentElement.classList.add('dark')
   }
 
-  // Load tasks
-  const saved = localStorage.getItem('module7-tasks')
-  if (saved) {
-    try {
-      const parsed = JSON.parse(saved)
-      if (parsed.length > 0) {
-        tasks.value = parsed
-      } else {
-        tasks.value = sampleTasks
-        saveTasks()
-      }
-    } catch (e) {
-      tasks.value = sampleTasks
-      saveTasks()
-    }
-  } else {
-    tasks.value = sampleTasks
-    saveTasks()
-  }
+  // Load tasks for logged in user
+  loadTasks()
 })
 
 function handleLogout() {
